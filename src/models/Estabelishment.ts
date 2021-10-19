@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity()
 export default class Estabelishment {
@@ -11,7 +11,7 @@ export default class Estabelishment {
     @Column({ unique: true })
     doc: number;
 
-    @Column()
+    @Column({ unique: true })
     site: string;
 
     @Column()
@@ -21,5 +21,9 @@ export default class Estabelishment {
     sumOfProducts: number;
 
     @CreateDateColumn()
-    update_At: Date;
-}
+    created_At: Date;
+    
+    @UpdateDateColumn()
+    updated_At: Date;
+    
+};

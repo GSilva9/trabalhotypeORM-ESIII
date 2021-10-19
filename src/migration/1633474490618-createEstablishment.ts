@@ -20,10 +20,12 @@ export class CreateEstablishment1633474490618 implements MigrationInterface {
                     {
                         name: 'doc',
                         type: 'varchar',
+                        isUnique: true,
                     },
                     {
                         name: 'site',
                         type: 'varchar',
+                        isUnique: true,
                     },
                     {
                         name: 'contributors',
@@ -34,10 +36,15 @@ export class CreateEstablishment1633474490618 implements MigrationInterface {
                         type: 'integer',
                     },
                     {
-                        name: 'update_At',
+                        name: 'created_At',
                         type: 'timestamp',
                         default: 'now()',
-                    }
+                    },
+                    {
+                        name: 'updated_At',
+                        type: 'timestamp',
+                        default: 'now()',
+                    },
                 ]
             })
         )
