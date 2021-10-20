@@ -1,11 +1,12 @@
-import { MigrationInterface, QueryRunner, Table } from "typeorm";
+import {MigrationInterface, QueryRunner, Table} from "typeorm";
 
-export class CreateEstablishment1633474490618 implements MigrationInterface {
+export class CreateProduct1634687469399 implements MigrationInterface {
+
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
             new Table({
-                name: 'Estabelishment',
-                columns: [
+                name: 'Product',
+                columns:[
                     {
                         name: 'id',
                         type: 'uuid',
@@ -14,26 +15,25 @@ export class CreateEstablishment1633474490618 implements MigrationInterface {
                         default: 'uuid_generate_v4()'
                     },
                     {
-                        name: 'name',
-                        type: 'varchar',
-                    },
-                    {
-                        name: 'doc',
-                        type: 'varchar',
+                        name: 'code',
+                        type: 'integer',
                         isUnique: true,
                     },
                     {
-                        name: 'site',
+                        name: 'description',
                         type: 'varchar',
-                        isUnique: true,
                     },
                     {
-                        name: 'contributors',
-                        type: 'integer',
+                        name: 'buyPrice',
+                        type: 'float',
                     },
                     {
-                        name: 'sumOfProducts',
-                        type: 'integer',
+                        name: 'sellPrice',
+                        type: 'float',
+                    },
+                    {
+                        name: 'lovers',
+                        type: 'integer'
                     },
                     {
                         name: 'created_At',
@@ -46,12 +46,13 @@ export class CreateEstablishment1633474490618 implements MigrationInterface {
                         default: 'now()',
                     },
                 ]
-            })
+            }
+            )
         )
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        queryRunner.dropTable('Estabelishment')
+        await queryRunner.dropTable('Product')
     }
 
 }
