@@ -17,7 +17,7 @@ export default class Estabelishment {
 
     @ManyToMany(type => Product)
     @JoinTable()
-    products: Product;
+    products: Product[]; //Verificar se realmente é um array
 
     @Column()
     contributors: number;
