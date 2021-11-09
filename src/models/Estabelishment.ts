@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import Product from './Product';
 
 @Entity()
 export default class Estabelishment {
@@ -13,6 +14,10 @@ export default class Estabelishment {
 
     @Column({ unique: true })
     site: string;
+
+    @ManyToMany(type => Product)
+    @JoinTable()
+    products: Product;
 
     @Column()
     contributors: number;
