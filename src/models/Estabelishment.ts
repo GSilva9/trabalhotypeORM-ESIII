@@ -1,6 +1,8 @@
 import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import Product from './Product';
 
+import {IsFQDN} from 'class-validator';
+
 @Entity()
 export default class Estabelishment {
     @PrimaryGeneratedColumn('uuid')
@@ -13,6 +15,7 @@ export default class Estabelishment {
     doc: number;
 
     @Column({ unique: true })
+    @IsFQDN()
     site: string;
 
     @ManyToMany(type => Product)

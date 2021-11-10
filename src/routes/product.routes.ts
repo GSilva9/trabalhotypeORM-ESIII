@@ -1,12 +1,13 @@
-import { Router } from 'express';
+import { response, Router } from 'express';
 import { getCustomRepository, getRepository } from 'typeorm';
 import ProductRepository from '../repositories/ProductRepository';
+import { validate } from 'class-validator';
 
 const productRouter = Router();
 const productRepository = async () => getCustomRepository(ProductRepository);
 
 productRouter.get('/', async (req, res) => {
-  let { code, description, lovers, tags, id, __quantity } = req.query;
+  let { code, description, lovers, id, __quantity } = req.query;
   if (id) {
     return res.json({product: (await (await productRepository()).findById(id))});
   };
@@ -43,11 +44,11 @@ productRouter.get('/', async (req, res) => {
 });
 
 productRouter.post('/', async (req, res) => {
-  let { buyPrice, code, description, lovers, sellPrice, tags } = req.body;
+  let { buyPrice, code, description, lovers, sellPrice } = req.body;
   try {
     buyPrice = Number(buyPrice) *100;
     sellPrice = Number(sellPrice) *100;
-    if (tags) tags = JSON.parse(tags);
+    // if (tags) tags = JSON.parse(tags);
     if (lovers) lovers = parseInt(lovers);
     const produto = (await productRepository()).create({
       buyPrice,
@@ -58,8 +59,15 @@ productRouter.post('/', async (req, res) => {
       // tags,
     });
 
-    await (await productRepository()).save(produto);
-    res.status(201).json(produto);
+    const errors = await validate(produto)
+    if(errors.length === 0){
+      await (await productRepository()).save(produto);
+      res.status(201).json(produto);
+
+    }else{
+      response.status(400).json(errors)
+    }
+
   } catch (err) {
     return res.status(400).json({ Erro: err.message });
   }
