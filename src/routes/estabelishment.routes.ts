@@ -8,41 +8,8 @@ import Estabelishment from '../models/Estabelishment';
 const estabelishmentRouter = Router();
 const establishmentRepository = async () => getCustomRepository(EstablishmentRepository);
 
-estabelishmentRouter.get('/', async (req, res) => {
-    let { id, name, doc, site, contributors, sumOfProducts, created_At, updated_At } = req.query;
-    if (id) {
-        return res.json({ estabelishment: (await (await establishmentRepository()).findById(id)) });
-    };
-
-    //   if (code) {
-    //     return res.json({product: (await (await EstablishmentRepository()).findByCode(code))});
-    //   };
-
-    let data: any = {};
-
-    //   let buyPrice = req.body.buyPrice ? Number(req.body.buyPrice)*100 : undefined;
-    //   let sellPrice = req.body.sellPrice ? Number(req.body.sellPrice)*100 : undefined;
-
-    //   lovers = lovers ? <any> Number(lovers) : undefined;
-
-    //   if (code) data.code = code;
-    //   if (description) data.description = description;
-    //   if (lovers) data.lovers = lovers;
-
-    //   if (buyPrice) data.buyPrice = buyPrice;
-    //   if (sellPrice) data.sellPrice = sellPrice;
-
-    if (Object.keys(data).length > 0) {
-        var estabelishment = await (await establishmentRepository()).find({ where: data });
-    }
-
-    //   if (!products) var products = await (await EstablishmentRepository()).find();
-
-    //   if (__quantity) {
-    //     products = products.filter((_, i) => i < Number(__quantity));
-    //   };
-
-    res.json({ estabelishment });
+estabelishmentRouter.get('/', async (req, res) => {   
+    return res.json((await (await establishmentRepository()).find()));
 });
 
 estabelishmentRouter.post('/', async (request, response) => {
