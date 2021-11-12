@@ -1,8 +1,8 @@
 import { EntityRepository, Repository } from 'typeorm';
-import Product from '../models/Product';
+import Estabelishment from '../models/Estabelishment';
 
-@EntityRepository(Product)
-export default class ProductRepository extends Repository<Product> {
+@EntityRepository(Estabelishment)
+export default class EstablishmentRepository extends Repository<Estabelishment> {
     public async findById(id) {
         return this.find({ where: { id } })
     };
@@ -11,20 +11,20 @@ export default class ProductRepository extends Repository<Product> {
         return this.find({ where: { doc } });
     };
 
-    public async findBySite(site) {
-        return this.find({ where: { site } });
-    };
-    public async deleteById(id) {
-        return this.delete({ id });
-    };
+    // public async findBySite(site) {
+    //     return this.find({ where: { site } });
+    // };
+    // public async deleteById(id) {
+    //     return this.delete({ id });
+    // };
 
-    public async deleteByDoc(doc) {
-        let entity = await this.findByDoc(doc);
-        return this.delete(entity[0]);
-    };
+    // public async deleteByDoc(doc) {
+    //     let entity = await this.findByDoc(doc);
+    //     return this.delete(entity[0]);
+    // };
     
-    public async deleteBySite(site) {
-        let entity = await this.findBySite(site);
-        return this.delete(entity[0]);
-    };
+    // public async deleteBySite(site) {
+    //     let entity = await this.findBySite(site);
+    //     return this.delete(entity[0]);
+    // };
 };

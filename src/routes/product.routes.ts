@@ -1,12 +1,14 @@
-import { Router } from 'express';
+import { response, Router } from 'express';
 import { getCustomRepository, getRepository } from 'typeorm';
 import ProductRepository from '../repositories/ProductRepository';
+import { validate } from 'class-validator';
+import Product from '../models/Product';
 
 const productRouter = Router();
 const productRepository = async () => getCustomRepository(ProductRepository);
 
 productRouter.get('/', async (req, res) => {
-  let { code, description, lovers, tags, id, __quantity } = req.query;
+  let { code, description, lovers, id, __quantity } = req.query;
   if (id) {
     return res.json({product: (await (await productRepository()).findById(id))});
   };
@@ -42,26 +44,35 @@ productRouter.get('/', async (req, res) => {
   res.json({products});
 });
 
-productRouter.post('/', async (req, res) => {
-  let { buyPrice, code, description, lovers, sellPrice, tags } = req.body;
+productRouter.post('/', async (request, response) => {
   try {
-    buyPrice = Number(buyPrice) *100;
-    sellPrice = Number(sellPrice) *100;
-    if (tags) tags = JSON.parse(tags);
-    if (lovers) lovers = parseInt(lovers);
-    const produto = (await productRepository()).create({
+    const { buyPrice, code, description, lovers, sellPrice } = request.body;
+    const repo = getRepository(Product)
+    // buyPrice = Number(buyPrice) *100;
+    // sellPrice = Number(sellPrice) *100;
+    // if (tags) tags = JSON.parse(tags);
+    // if (lovers) lovers = parseInt(lovers);
+    const produto = repo.create({
       buyPrice,
       code,
       description,
       lovers,
-      sellPrice,
-      // tags,
+      sellPrice
     });
 
-    await (await productRepository()).save(produto);
-    res.status(201).json(produto);
+    const errors = await validate(produto)
+
+    if(errors.length === 0){
+      const res = await repo.save(produto);
+      return response.status(201).json(res);
+    }else{
+
+      response.status(400).json(errors)
+    }
+    
+
   } catch (err) {
-    return res.status(400).json({ Erro: err.message });
+    return response.status(400).json({ Erro: err.message });
   }
 });
 

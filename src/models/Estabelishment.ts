@@ -1,4 +1,7 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import Product from './Product';
+
+import {IsFQDN} from 'class-validator';
 
 @Entity()
 export default class Estabelishment {
@@ -12,7 +15,12 @@ export default class Estabelishment {
     doc: number;
 
     @Column({ unique: true })
+    @IsFQDN()
     site: string;
+
+    @ManyToMany(type => Product)
+    @JoinTable()
+    products: Product[]; //Verificar se realmente é um array
 
     @Column()
     contributors: number;
