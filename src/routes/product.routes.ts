@@ -9,6 +9,7 @@ const productRepository = async () => getCustomRepository(ProductRepository);
 
 productRouter.get('/', async (req, res) => {
   let { code, description, lovers, id, __quantity } = req.query;
+  
   if (id) {
     return res.json({product: (await (await productRepository()).findById(id))});
   };

@@ -1,5 +1,7 @@
 import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import Product from './Product';
+// import EncryptionTransformer from 'typeorm-encrypted/lib/transformers';
+import {EncryptionTransformer} from 'typeorm-encrypted/lib/transformer';
 
 import {IsFQDN} from 'class-validator';
 
@@ -8,7 +10,16 @@ export default class Estabelishment {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @Column()
+    @Column({
+        type: "varchar",
+        nullable: false,
+        transformer: new EncryptionTransformer({
+          key: 'e41c966f21f9e1577802463f8924e6a3fe3e9751f201304213b2f845d8841d61',
+          algorithm: 'aes-256-cbc',
+          ivLength: 6,
+          iv: 'ff5ac19190424b1d88f9419ef949ae56'
+        })
+      })
     name: string;
 
     @Column({ unique: true })

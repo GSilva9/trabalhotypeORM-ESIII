@@ -1,5 +1,5 @@
 import { response, Router } from 'express';
-import { getCustomRepository, getRepository } from 'typeorm';
+import { getConnection, getCustomRepository, getRepository } from 'typeorm';
 import EstablishmentRepository from '../repositories/EstablishmentRepository';
 import { validate } from 'class-validator';
 // import Product from '../models/Product';
@@ -10,17 +10,15 @@ const establishmentRepository = async () => getCustomRepository(EstablishmentRep
 
 estabelishmentRouter.get('/', async (req, res) => {
 
-    return res.json((await (await establishmentRepository()).find({cache: true})));
+    return res.json((await (await establishmentRepository()).find({ cache: { id: 'listEstablishment', milliseconds: 10000 } })));
 });
 
 estabelishmentRouter.post('/', async (request, response) => {
     try {
         const { name, doc, site, contributors, sumOfProducts } = request.body;
+        //Para remover o cache quando der post em Establishment
+        await getConnection().queryResultCache?.remove(['listEstablishment'])
         const repo = getRepository(Estabelishment)
-        // buyPrice = Number(buyPrice) *100;
-        // sellPrice = Number(sellPrice) *100;
-        // if (tags) tags = JSON.parse(tags);
-        // if (lovers) lovers = parseInt(lovers);
         const estabelecimento = repo.create({
             name,
             doc,
