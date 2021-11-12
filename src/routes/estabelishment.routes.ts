@@ -8,8 +8,9 @@ import Estabelishment from '../models/Estabelishment';
 const estabelishmentRouter = Router();
 const establishmentRepository = async () => getCustomRepository(EstablishmentRepository);
 
-estabelishmentRouter.get('/', async (req, res) => {   
-    return res.json((await (await establishmentRepository()).find()));
+estabelishmentRouter.get('/', async (req, res) => {
+
+    return res.json((await (await establishmentRepository()).find({cache: true})));
 });
 
 estabelishmentRouter.post('/', async (request, response) => {
