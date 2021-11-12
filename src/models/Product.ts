@@ -1,6 +1,6 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-import {IsPositive} from 'class-validator';
+import {IsPositive, Min, MinLength} from 'class-validator';
 @Entity()
 export default class Product {
   @PrimaryGeneratedColumn('uuid')
@@ -10,6 +10,7 @@ export default class Product {
   code: number;
 
   @Column()
+  @MinLength(10, {message: "A descrição precisa ter pelo menos 10 caracteres"})
   description: string;
 
   @Column()
