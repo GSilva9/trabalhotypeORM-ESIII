@@ -16,7 +16,7 @@ export default class Estabelishment {
         transformer: new EncryptionTransformer({
           key: 'e41c966f21f9e1577802463f8924e6a3fe3e9751f201304213b2f845d8841d61',
           algorithm: 'aes-256-cbc',
-          ivLength: 6,
+          ivLength: 16,
           iv: 'ff5ac19190424b1d88f9419ef949ae56'
         })
       })
@@ -29,7 +29,7 @@ export default class Estabelishment {
     @IsFQDN()
     site: string;
 
-    @ManyToMany(type => Product)
+    @ManyToMany(type => Product, {cascade:true, eager:true})
     @JoinTable()
     products: Product[]; //Verificar se realmente é um array
 

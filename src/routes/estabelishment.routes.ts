@@ -15,7 +15,7 @@ estabelishmentRouter.get('/', async (req, res) => {
 
 estabelishmentRouter.post('/', async (request, response) => {
     try {
-        const { name, doc, site, contributors, sumOfProducts } = request.body;
+        const { name, doc, site, contributors, sumOfProducts, products } = request.body;
         //Para remover o cache quando der post em Establishment
         await getConnection().queryResultCache?.remove(['listEstablishment'])
         const repo = getRepository(Estabelishment)
@@ -24,9 +24,10 @@ estabelishmentRouter.post('/', async (request, response) => {
             doc,
             site,
             contributors,
-            sumOfProducts
+            sumOfProducts,
+            products
         });
-
+        
         const errors = await validate(estabelecimento)
 
         if (errors.length === 0) {
